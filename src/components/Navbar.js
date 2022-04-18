@@ -2,7 +2,7 @@ import React from "react";
 import { useAppContext } from "../contexts/AppContext";
 
 export default function Navbar() {
-  const { setIsLoggedIn, loggedInUser, handleLogout } = useAppContext();
+  const { loggedInUser, handleLogout } = useAppContext();
 
   return (
     <nav>
