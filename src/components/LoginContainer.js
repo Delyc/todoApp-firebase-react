@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Textfield from "./Textfield";
 import SubmitButton from "./SubmitButton";
+import { useAppContext } from "../contexts/AppContext";
 
 const LoginContainer = (props) => {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ const LoginContainer = (props) => {
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false);
+  const { setIsLoggedIn, signInWithGoogle } = useAppContext();
 
   const setFormValidation = () => {
     if (emailIsValid && passwordIsValid) {
@@ -20,8 +22,8 @@ const LoginContainer = (props) => {
   useEffect(setFormValidation, [emailIsValid, passwordIsValid]);
 
   const handleSubmit = () => {
-    props.setIsLoggedIn(true);
-    localStorage.setItem("isLoggedIn", "yes")
+    setIsLoggedIn(true);
+    localStorage.setItem("isLoggedIn", "yes");
   };
 
   return (
@@ -46,8 +48,9 @@ const LoginContainer = (props) => {
         setValid={setPasswordIsValid}
       />
       <SubmitButton handleClick={handleSubmit} isValid={formIsValid} label={"Log In"} />
+      <SubmitButton handleClick={signInWithGoogle} isValid={true} label={"Log In With Google"} />
     </div>
   );
 };
-
+//It's not letting me chat for some reason... hold on
 export default LoginContainer;

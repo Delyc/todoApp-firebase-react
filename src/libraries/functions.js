@@ -21,3 +21,13 @@ export const validateEmail = (text) => {
       return false;
     }
   };
+
+  export const isNewTaskFormValid = (newTaskIsValid) => {
+    return newTaskIsValid.author &&
+      newTaskIsValid.name &&
+      newTaskIsValid.description &&
+      newTaskIsValid.dueDate &&
+      newTaskIsValid.priority
+      ? true
+      : false;
+  };

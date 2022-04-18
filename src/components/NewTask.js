@@ -1,24 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Textfield from "./Textfield";
 import SubmitButton from "./SubmitButton";
-import { blankNewTask, blankNewTaskIsValid } from "../libraries/objects";
-import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
-
-const isNewTaskFormValid = (newTaskIsValid) => {
-  return newTaskIsValid.author &&
-    newTaskIsValid.name &&
-    newTaskIsValid.description &&
-    newTaskIsValid.dueDate &&
-    newTaskIsValid.priority
-    ? true
-    : false;
-};
+import { isNewTaskFormValid } from "../libraries/functions";
+import { useAppContext } from "../contexts/AppContext";
 
 const NewTask = () => {
-  const [newTask, setNewTask] = useState(blankNewTask);
-  const [newTaskIsValid, setNewTaskIsValid] = useState(blankNewTaskIsValid);
   const [formValid, setFormValid] = useState(false);
+  const { newTask, setNewTask, newTaskIsValid, setNewTaskIsValid, handleSubmitClick } =
+    useAppContext();
 
   const setValue = (value, field) => {
     setNewTask({ ...newTask, [field]: value });
@@ -30,19 +19,10 @@ const NewTask = () => {
     });
   };
 
-  const handleSubmitClick = async () => {
-    const tasksRef = collection(db, "tasks-Delyce");
-    await addDoc(tasksRef, newTask);
-    setNewTask(blankNewTask);
-    setNewTaskIsValid(blankNewTaskIsValid);
-  };
-
-  const isFormValid = () => {
+  useEffect(() => {
     const valid = isNewTaskFormValid(newTaskIsValid);
     setFormValid(valid);
-  };
-
-  useEffect(isFormValid, [newTaskIsValid]);
+  }, [newTaskIsValid, setFormValid]);
 
   return (
     <div className="new-task-box">
